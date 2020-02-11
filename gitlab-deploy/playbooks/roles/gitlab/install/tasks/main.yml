@@ -53,4 +53,4 @@
   yum:
     name: gitlab-ee
   environment:
-    EXTERNAL_URL: http://gitlab-server.local
+    EXTERNAL_URL: http://gitlab.local

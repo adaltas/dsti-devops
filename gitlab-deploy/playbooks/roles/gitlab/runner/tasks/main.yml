@@ -53,12 +53,30 @@
 
 - name: Installed required packages
   yum: 
+    update_cache: yes
     name:
      - gcc-c++
      - make
+
+- name: clean yum cache
+  command: yum clean all
+
+- name: Install nodejs
+  yum: 
+    name:
+      - nodejs
+    state: absent
 
 - name: Install nodejs
   yum: 
     name:
       - nodejs
     state: latest
+  
+- name: Check nodejs version
+  command: 'node -v'
+  register: node_version
+
+- name: debug version
+  debug:
+    msg: " {{ node_version}} "
