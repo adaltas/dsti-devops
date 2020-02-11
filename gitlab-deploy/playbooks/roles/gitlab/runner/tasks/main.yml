@@ -48,6 +48,9 @@
     url: https://rpm.nodesource.com/setup_12.x
     dest: /tmp/getnode.sh
 
+- name: Launch nodejs
+  script: /tmp/getnode.sh
+
 - name: Installed required packages
   yum: 
     name:
