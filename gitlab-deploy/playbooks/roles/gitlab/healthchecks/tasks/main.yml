@@ -26,3 +26,17 @@
     msg: "{{ gitlab_health.content }}"
 
 # Run the 2 other kind of health checks below
+
+- name: Check GitLab readiness
+  uri:
+    url: http://127.0.0.1/-/readiness
+    status_code: [200, 503]
+  # Register the output of the module in a variable
+  register: gitlab_readiness
+
+- name: Print GitLab readiness
+  debug:
+    msg: "{{ item }}: {{ gitlab_readiness.json.status }}"
+  with_items:
+    - status
+  when: gitlab_readiness.json.status == "ok"

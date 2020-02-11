@@ -7,5 +7,5 @@
   - role: gitlab/install
     tags: install
 
-  # - role: gitlab/healthchecks
-  #   tags: check
+  - role: gitlab/healthchecks
+    tags: check

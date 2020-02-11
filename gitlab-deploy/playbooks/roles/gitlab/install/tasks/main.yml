@@ -24,25 +24,33 @@
     - http
     - https
 
-# - name: Reload firewalld
-#   COMPLETE HERE
+- name: Reload firewalld
+  service:
+    name: firewalld
+    state: reloaded
 
-# - name: Install postfix
-#   COMPLETE HERE
+- name: Install postfix
+  yum:
+    name:
+      - postfix
+    state: installed
 
-# - name: Enable and start postfix
-#   COMPLETE HERE
+- name: Enable and start postfix
+  service:
+    name: postfix
+    state: started
+    enabled: true
 
-# - name: Download GitLab package script
-#   COMPLETE HERE
-#   TIP: Use the get_url module to download the script.rpm.sh
+- name: Download GitLab package script
+  get_url:
+    url: https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.rpm.sh
+    dest: /tmp/script.rpm.sh
 
-# - name: Execute GitLab package script
-#   COMPLETE HERE
-#   TIP: Use the script module to run the script.rpm.sh
+- name: Execute GitLab package script
+  script: /tmp/script.rpm.sh
 
 - name: Install GitLab
   yum:
     name: gitlab-ee
   environment:
-    EXTERNAL_URL: http://gitlab.local
+    EXTERNAL_URL: http://gitlab-server.local
