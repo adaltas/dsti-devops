@@ -9,3 +9,9 @@
 
   - role: gitlab/healthchecks
     tags: check
+
+- hosts: gitlab_runner
+  become: true
+  roles:
+  - role: gitlab/runner
+    tags: runner

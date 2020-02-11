@@ -1,0 +1,58 @@
+---
+
+- name: Disable SELinux
+  selinux:
+    state: disabled
+
+- name: Enable HTTP+HTTPS access
+  firewalld:
+    # This is how we use a variable
+    service: "{{ item }}"
+    permanent: yes
+    state: enabled
+  # The module will be run for each item
+  with_items:
+    - http
+    - https
+
+- name: Reload firewalld
+  service:
+    name: firewalld
+    state: reloaded
+
+- name: Download GitLab package script
+  get_url:
+    url: https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.rpm.sh
+    dest: /tmp/script.rpm.sh
+
+- name: Execute GitLab package script
+  script: /tmp/script.rpm.sh
+
+- name: Install GitLab
+  yum:
+    name: gitlab-runner
+
+- name: Install Nginx
+  yum:
+    name: nginx
+    state: installed
+
+- name: Activate Nginx
+  service:
+    name: nginx
+    enabled: yes
+    state: started
+
+- name: Add RVM gpg2 key
+  command: gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+
+- name: get rvm script
+  get_url:
+    url: https://get.rvm.io
+    dest: /tmp/getrvm.sh
+
+- name: Laucnh rvm script
+  script:  /tmp/getrvm.sh
+
+- name: Use ruby version 2.4
+  command: rvm install 2.4
