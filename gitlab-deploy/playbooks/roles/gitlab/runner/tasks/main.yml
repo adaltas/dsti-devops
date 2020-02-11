@@ -61,3 +61,4 @@
   yum: 
     name:
       - nodejs
+    state: latest
